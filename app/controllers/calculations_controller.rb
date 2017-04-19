@@ -10,14 +10,15 @@ class CalculationsController < ApplicationController
     # The special word the user input is in the string @special_word.
     # ================================================================================
 
+  @character_count_with_spaces = @text.length
+  text_wo_spaces= @text.gsub(" ","")
+  text_wo_linefeed= text_wo_spaces.gsub("/n","")
+  text_wo_cr= text_wo_linefeed.gsub("\r","")
+  text_wo_tabs= text_wo_cr.gsub("\t","")
+  @character_count_without_spaces = text_wo_tabs.length
+  @word_count = @text.split.count
+  @occurrences = @text.downcase.gsub(/[^a-z0-9\s]/i,"").split.count(@special_word.downcase)
 
-    @word_count = "Replace this string with your answer."
-
-    @character_count_with_spaces = "Replace this string with your answer."
-
-    @character_count_without_spaces = "Replace this string with your answer."
-
-    @occurrences = "Replace this string with your answer."
 
     # ================================================================================
     # Your code goes above.
@@ -38,7 +39,13 @@ class CalculationsController < ApplicationController
     # The principal value the user input is in the decimal @principal.
     # ================================================================================
 
-    @monthly_payment = "Replace this string with your answer."
+periods= (@years*-12)
+apr_percent= ((@apr/100)/12)
+numerator= apr_percent
+denominator_paren= (apr_percent+1)
+denominator= 1-(denominator_paren**periods)
+
+    @monthly_payment =(numerator/denominator)*@principal
 
     # ================================================================================
     # Your code goes above.
@@ -60,12 +67,12 @@ class CalculationsController < ApplicationController
     #   number of seconds as a result.
     # ================================================================================
 
-    @seconds = "Replace this string with your answer."
-    @minutes = "Replace this string with your answer."
-    @hours = "Replace this string with your answer."
-    @days = "Replace this string with your answer."
-    @weeks = "Replace this string with your answer."
-    @years = "Replace this string with your answer."
+    @seconds = (@ending - @starting)
+    @minutes = ((@ending - @starting)/60)
+    @hours = @minutes/60
+    @days = @hours/24
+    @weeks = @days/7
+    @years = @weeks/52
 
     # ================================================================================
     # Your code goes above.
